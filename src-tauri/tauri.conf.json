@@ -12,9 +12,10 @@
   "app": {
     "windows": [
       {
-        "title": "thunderstrike",
+        "title": "ThunderStrike",
         "width": 800,
-        "height": 600
+        "decorations": false,
+        "maximized": true
       }
     ],
     "security": {

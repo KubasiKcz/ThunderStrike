@@ -1,0 +1,332 @@
+@font-face {
+  font-family: 'TexAdventor';
+  src: url('/fonts/tex-gyre-adventor/texgyreadventor-bold.otf') format('opentype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'TexAdventor';
+  src: url('/fonts/tex-gyre-adventor/texgyreadventor-regular.otf') format('opentype');
+  font-weight: normal;
+}
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --border-color: #cccccc;
+  --icon-color: #666666;
+  --hover-bg: #e0e0e0;
+  --hover-text: #000000;
+  --icon-filter: none;
+}
+
+.dark {
+  --bg-color: #16161d;
+  --text-color: #ffffff;
+  --border-color: #333333;
+  --icon-color: #aaaaaa;
+  --hover-bg: #2a2a35;
+  --hover-text: #ffffff;
+  --icon-filter: invert(1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+main {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  grid-template-rows: 45px 1fr;
+  grid-template-areas:
+    "header header"
+    "aside section";
+  height: 100vh;
+  box-sizing: border-box;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+aside {
+  grid-area: aside;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 0;
+  gap: 15px;
+  border-right: 1px solid var(--border-color);
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+#logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+#logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header {
+  grid-area: header;
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  border-bottom: 1px solid var(--border-color);
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+  position: relative;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  margin: 0;
+  padding-left: 20px;
+  align-self: center;
+  pointer-events: none;
+  flex: 1;
+}
+
+.launch-container {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   -webkit-app-region: no-drag;
+}
+.LaunchWT {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px; /* Šířka pro ideální cover textu a zachování poměru WT */
+  height: 48px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.LaunchWT:hover .launch-bg {
+  transform: scaleY(-1); /* Okamžité otočení */
+}
+.LaunchWT.running {
+  filter: grayscale(1) brightness(0.8); /* Tlačítko se zšedne */
+  cursor: not-allowed;
+}
+.LaunchWT.running .launch-bg {
+  transform: none; /* Odstraní případný hover flip, když už se spouští */
+}
+.launch-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+.LaunchWT .launch-text {
+  font-family: 'TexAdventor', sans-serif;
+  position: relative; /* Dostane the text přes z-index na bg */
+  z-index: 2;
+  color: #fff;
+  font-weight: normal;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.9), 0px 0px 8px rgba(0,0,0,0.8);
+  pointer-events: none;
+}
+
+section {
+  grid-area: section;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-btn {
+  box-sizing: border-box;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  background-color: var(--hover-bg);
+}
+
+.nav-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: var(--icon-filter);
+  transition: filter 0.2s;
+}
+
+#settings {
+  margin-top: auto;
+}
+
+/* --- Window Controls (Tauri Custom Titlebar) --- */
+[data-tauri-drag-region] {
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
+.window-controls {
+  display: flex;
+  -webkit-app-region: no-drag;
+}
+
+.win-btn {
+  width: 45px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--icon-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s, color 0.2s;
+  outline: none;
+}
+
+.win-btn:hover {
+  background-color: var(--hover-bg);
+  color: var(--hover-text);
+}
+
+.win-btn.close:hover {
+  background-color: #e81123;
+  color: white;
+}
+
+.svg{
+  width: 18px;
+  height: 18px;
+  filter: var(--icon-filter);
+}
+
+  .home-container {
+    animation: fadein 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    padding: 10px;
+  }
+
+  .dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+  }
+
+  .main-content { display: flex; flex-direction: column; gap: 20px; }
+
+  .profile-card {
+    display: flex;
+    gap: 25px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .avatar { width: 120px; height: 120px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+  .profile-details { display: flex; flex-direction: column; flex: 1; }
+  .nickname { margin: 0; font-size: 1.8rem; color: #fff; }
+  .lvl { margin: 5px 0; color: #aaa; }
+  .reg-date { margin: 0 0 15px 0; font-size: 0.9rem; color: #666; }
+
+  .update-section { display: flex; align-items: center; gap: 15px; margin-top: auto; }
+  .update-btn { 
+    background: rgba(255, 255, 255, 0.05); 
+    color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); 
+    padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: 0.2s;
+  }
+  .update-btn:hover { background: rgba(255, 255, 255, 0.1); }
+  .last-updated { font-size: 0.8rem; color: #555; }
+
+  /* Stats Styling */
+  .stats-container {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    padding: 15px;
+  }
+  
+  .stats-nav { display: flex; gap: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 15px; }
+  .nav-item { 
+    background: none; border: none; padding: 8px 15px; color: #777; cursor: pointer; 
+    border-bottom: 2px solid transparent; transition: 0.2s;
+  }
+  .nav-item:hover { color: #fff; }
+  .nav-item.active { color: #fff; border-bottom-color: #e81123; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat-box { 
+    background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; text-align: center;
+    display: flex; flex-direction: column; gap: 5px; border: 1px solid rgba(255,255,255,0.05);
+  }
+  .stat-box span { font-size: 0.75rem; color: #555; text-transform: uppercase; }
+  .stat-box strong { font-size: 1.1rem; color: #ddd; }
+
+  /* Mods Panel */
+  .mods-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(232, 17, 35, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    height: fit-content;
+  }
+  .mods-card h3 { margin: 0 0 10px 0; color: #e81123; }
+  .mod-switches { display: flex; flex-direction: column; gap: 12px; }
+  .mod-switch-row { 
+    display: flex; align-items: center; justify-content: space-between; 
+    padding: 12px 15px; background: rgba(0,0,0,0.2); border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.02);
+  }
+  .mod-title { font-size: 0.95rem; color: #ddd; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+
+  /* Switch UI */
+  .switch { position: relative; display: inline-block; width: 46px; height: 24px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { 
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #333; transition: .4s; border-radius: 24px;
+  }
+  .slider:before { 
+    position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+    background-color: white; transition: .4s; border-radius: 50%;
+  }
+  input:checked + .slider { background-color: #e81123; }
+  input:checked + .slider:before { transform: translateX(22px); }
+
+  @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
