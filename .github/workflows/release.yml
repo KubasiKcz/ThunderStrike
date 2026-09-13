@@ -15,7 +15,7 @@ jobs:
       matrix:
         include:
           - platform: 'windows-latest'
-            args: ''
+            args: '--bundles nsis'
           - platform: 'ubuntu-22.04'
             args: '--bundles appimage,deb'
 
@@ -43,7 +43,7 @@ jobs:
         run: npm ci
 
       - name: Build and Package with Tauri Action
-        uses: tauri-apps/tauri-action@v0
+        uses: tauri-apps/tauri-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NO_STRIP: "true"
