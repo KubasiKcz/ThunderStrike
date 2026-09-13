@@ -1,0 +1,126 @@
+<ID|readonly|noverify>
+// ==========================================
+// ThunderStrike - Starred Keys Template
+// ==========================================
+
+// --- Main Menu and Navigation ---
+mainmenu/toBattle
+mainmenu/toBattle/short
+mainmenu/btnCancel
+mainmenu/btnExit
+mainmenu/btnBattleTasks
+mainmenu/btnShop
+mainmenu/btnTestFlight
+mainmenu/btnTestDrive
+mainmenu/btnTestSail
+mainmenu/btnQuit
+mainmenu/btnKick
+mainmenu/btnProfile
+mainmenu/brText
+
+// --- In-Flight Battle Menu ---
+flightmenu/title
+flightmenu/btnResume
+flightmenu/btnOptions
+flightmenu/btnControls
+flightmenu/btnRestart
+flightmenu/btnQuitMission
+flightmenu/btnQuitGame
+flightmenu/questionQuitGame
+flightmenu/questionQuitMission
+
+// --- Hit Camera (enemy hits - top right) ---
+hitcamera/result/crew
+hitcamera/result/ammo
+hitcamera/result/fuel
+hitcamera/result/hull
+hitcamera/result/ricochet
+hitcamera/result/bounce
+hitcamera/result/breaking
+hitcamera/result/critical
+hitcamera/result/hit
+hitcamera/result/damage
+hitcamera/result/burn
+hitcamera/result/kill
+hitcamera/result/invulnerable
+
+// --- Death Reasons and Player Killfeed ---
+death/crewDeath
+death/ammoExplosion
+death/ammoFire
+death/fuelTankExplosion
+death/pilotDown
+death/tankBurn
+death/burn
+death/exploded
+death/cutWing
+death/cutTail
+death/tankIncapacitated
+death/hullBreak
+death/severeDamageToKill
+death/drown
+death/bailout
+death/byAircraft
+death/byAAA
+
+// --- Battle Messages and Combat Points ---
+exp_reasons/kill
+exp_reasons/kill_gm
+exp_reasons/assist
+exp_reasons/critical_hit
+exp_reasons/hit
+exp_reasons/severe_damage
+exp_reasons/ineffective_hit
+exp_reasons/landing
+exp_reasons/takeoff
+exp_reasons/capture
+exp_reasons/destroy
+exp_reasons/repair
+exp_reasons/scout
+exp_reasons/kill_from_severe_damage
+exp_reasons/kill_finishing_other
+
+// --- Mission Outcome ---
+MISSION_SUCCESS
+MISSION_FAIL
+
+// --- Combat Awards (Streaks) ---
+streaks/marks_killed_plane_20_ranks_higher
+streaks/marks_killed_plane_15_ranks_higher
+streaks/first_blood
+streaks/final_blow
+streaks/global_avenge_friendly
+streaks/global_destroy_enemy_marked_by_ally/multiple
+streaks/marks_landing_after_critical_hit
+streaks/tank_help_with_repairing
+streaks/tank_help_with_extinguishing
+streaks/killStreak_bomber_nuclear_success
+
+// --- Crew Members ---
+crew/pilot
+crew/gunner
+crew/driver
+crew/tank_gunner
+crew/tank_machine_gunner
+crew/commander
+crew/loader
+
+// --- Statistics and General ---
+stats/time_played
+stats/kills_air
+stats/kills_ground
+stats/kills_naval
+reward
+msgbox/btn_yes
+msgbox/btn_no
+msgbox/btn_ok
+msgbox/btn_cancel
+msgbox/btn_back
+status/offline
+status/online
+status/squad_leader
+status/squad_ready
+status/squad_not_ready
+status/squad_offline
+status/steam_online
+loading

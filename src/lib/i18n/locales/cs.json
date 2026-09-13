@@ -1,0 +1,70 @@
+{
+  "app": {
+    "title": "ThunderStrike"
+  },
+  "header": {
+    "activateTestLocalization": "Aktivovat testLocalization v config.blk",
+    "checkGameFolder": "Zkontrolovat složku hry",
+    "language": "Jazyk aplikace"
+  },
+  "status": {
+    "checkingFolder": "Kontroluji složku...",
+    "folderFoundLoadingCsv": "Složka nalezena. Načítám CSV...",
+    "langFolderNotFound": "Složka lang/ nebyla nalezena.",
+    "error": "Chyba: {error}",
+    "errorWritingConfig": "Chyba při zápisu configu: {error}",
+    "errorLoadingFile": "Chyba načítání souboru: {error}",
+    "diffSavedSuccess": "Diff úspěšně uložen do {path}",
+    "errorSaving": "Chyba při ukládání: {error}"
+  },
+  "warning": {
+    "title": "Složka lang/ neexistuje",
+    "description": "Aplikace nenašla lokalizační složku v cestě definované v config.json.",
+    "hint": "Zapni přepínač nahoře a spusť hru, nebo vlož složku na disk a klikni na Zkontrolovat složku hry."
+  },
+  "updateBanner": {
+    "title": "Detekována aktualizace War Thunderu",
+    "description": "Verze hry se změnila z {oldVersion} na {newVersion}. Aktualizujte lokalizaci, aby nechyběly nové texty vozidel a zbraní.",
+    "button": "Aktualizovat lokalizaci",
+    "waitingForGame": "Spusťte prosím War Thunder, aby vytvořil čerstvé soubory. Čekám na složku lang/...",
+    "success": "Lokalizace byla úspěšně aktualizována na verzi {version}!"
+  },
+  "editor": {
+    "selectFile": "Soubor / Výběr",
+    "gameLanguage": "Jazyk hry",
+    "searchPlaceholder": "Filtrovat podle klíče nebo textu...",
+    "saveDiff": "Uložit diff ({count} úprav)",
+    "applyToGame": "Aplikovat do hry",
+    "applying": "Aplikuji...",
+    "appliedSuccess": "Změny byly úspěšně aplikovány do herních souborů",
+    "restoreOriginal": "Obnovit originál",
+    "restoredSuccess": "Původní vanilkový soubor byl obnoven",
+    "confirmRestore": "Opravdu chcete obnovit původní vanilkový soubor? Všechny vaše úpravy pro tento soubor budou zrušeny.",
+    "revertRowTooltip": "Vrátit změnu",
+    "shortcutsHint": "Ctrl+S: Uložit a aplikovat | Ctrl+F: Hledat",
+    "starred": "⭐ Starred",
+    "starredCount": "⭐ Starred ({count})",
+    "showingCount": "Zobrazeno {visible} z {total} záznamů",
+    "loadMore": "Načíst dalších 150",
+    "starTooltipAdd": "Přidat do Starred",
+    "starTooltipRemove": "Odebrat ze Starred",
+    "starredOnly": "Pouze s hvězdičkou",
+    "showAll": "Zobrazit vše"
+  },
+  "table": {
+    "colKey": "Klíč",
+    "colOriginal": "Původní text",
+    "colCustom": "Vlastní text"
+  },
+  "pagination": {
+    "previous": "Předchozí",
+    "next": "Další",
+    "pageInfo": "Záznamy {start}–{end} z {total}",
+    "pageOf": "Stránka {current} z {total}",
+    "perPage": "Na stránku"
+  },
+  "languages": {
+    "en": "English",
+    "cs": "Čeština"
+  }
+}

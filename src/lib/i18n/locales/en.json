@@ -1,0 +1,70 @@
+{
+  "app": {
+    "title": "ThunderStrike"
+  },
+  "header": {
+    "activateTestLocalization": "Activate testLocalization in config.blk",
+    "checkGameFolder": "Check game folder",
+    "language": "App Language"
+  },
+  "status": {
+    "checkingFolder": "Checking folder...",
+    "folderFoundLoadingCsv": "Folder found. Loading CSV...",
+    "langFolderNotFound": "The lang/ folder was not found.",
+    "error": "Error: {error}",
+    "errorWritingConfig": "Error writing config: {error}",
+    "errorLoadingFile": "Error loading file: {error}",
+    "diffSavedSuccess": "Diff successfully saved to {path}",
+    "errorSaving": "Error while saving: {error}"
+  },
+  "warning": {
+    "title": "The lang/ folder does not exist",
+    "description": "The application could not find the localization folder in the path defined in config.json.",
+    "hint": "Enable the toggle above and launch the game, or place the folder on disk and click Check game folder."
+  },
+  "updateBanner": {
+    "title": "War Thunder Update Detected",
+    "description": "Game version changed from {oldVersion} to {newVersion}. Update your localization files to avoid missing vehicle and weapon text.",
+    "button": "Update Localization",
+    "waitingForGame": "Please launch War Thunder to let it generate fresh localization files. Waiting for lang/ folder...",
+    "success": "Localization successfully updated to version {version}!"
+  },
+  "editor": {
+    "selectFile": "File / View",
+    "gameLanguage": "Game Language",
+    "searchPlaceholder": "Filter by key or text...",
+    "saveDiff": "Save diff ({count} changes)",
+    "applyToGame": "Apply to Game",
+    "applying": "Applying...",
+    "appliedSuccess": "Changes successfully applied to game files",
+    "restoreOriginal": "Restore Vanilla",
+    "restoredSuccess": "Restored original vanilla file",
+    "confirmRestore": "Are you sure you want to restore the vanilla file? All custom modifications for this file will be discarded.",
+    "revertRowTooltip": "Revert change",
+    "shortcutsHint": "Ctrl+S: Save & Apply | Ctrl+F: Search",
+    "starred": "⭐ Starred",
+    "starredCount": "⭐ Starred ({count})",
+    "showingCount": "Showing {visible} of {total} entries",
+    "loadMore": "Load 150 more",
+    "starTooltipAdd": "Add to Starred",
+    "starTooltipRemove": "Remove from Starred",
+    "starredOnly": "Starred Only",
+    "showAll": "Show All"
+  },
+  "table": {
+    "colKey": "Key",
+    "colOriginal": "Original Text",
+    "colCustom": "Custom Text"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "pageInfo": "Entries {start}–{end} of {total}",
+    "pageOf": "Page {current} of {total}",
+    "perPage": "Per page"
+  },
+  "languages": {
+    "en": "English",
+    "cs": "Čeština"
+  }
+}

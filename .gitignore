@@ -1,3 +1,4 @@
+# Basic stuff
 .DS_Store
 node_modules
 /build
@@ -15,3 +16,15 @@ dev/*
 src-tauri/gen/
 src-tauri/target/
 .vscode/
+
+# Local configuration & runtime mod data
+config.json
+data/
+mods/localization/diffs/
+mods/localization/backups/
+!mods/localization/starred.txt
+
+# Packaging build artifacts
+packaging/arch/pkg/
+packaging/arch/src/
+*.pkg.tar.*

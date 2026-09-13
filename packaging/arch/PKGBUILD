@@ -1,0 +1,15 @@
+# Maintainer: KubasiKcz
+pkgname=thunderstrike-bin
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="War Thunder CSV Localization & Delta Patcher Utility"
+arch=('x86_64')
+url="https://github.com/KubasiKcz/ThenderStrike"
+license=('MIT')
+depends=('gtk3' 'webkit2gtk-4.1')
+
+package() {
+    install -Dm755 "${startdir}/../../src-tauri/target/release/thunderstrike" "${pkgdir}/usr/bin/thunderstrike"
+    install -Dm644 "${startdir}/../../src-tauri/target/release/bundle/appimage/ThunderStrike.AppDir/usr/share/applications/ThunderStrike.desktop" "${pkgdir}/usr/share/applications/thunderstrike.desktop"
+    install -Dm644 "${startdir}/../../src-tauri/icons/128x128.png" "${pkgdir}/usr/share/icons/hicolor/128x128/apps/thunderstrike.png"
+}
