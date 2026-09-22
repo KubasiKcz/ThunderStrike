@@ -137,36 +137,77 @@ fn clean_cell(cell: &str) -> String {
 
 #[tauri::command]
 pub fn check_lang_folder_exists() -> Result<bool, String> {
-    let game_dir = get_game_directory()?;
-    let lang_dir = game_dir.join("lang");
-    Ok(lang_dir.exists() && lang_dir.is_dir())
+    if let Ok(game_dir) = get_game_directory() {
+        let lang_dir = game_dir.join("lang");
+        if lang_dir.exists() && lang_dir.is_dir() {
+            return Ok(true);
+        }
+    }
+    // Also check if local backups have any CSV files (e.g. from datamine)
+    if let Ok(root) = get_app_root() {
+        let backup_dir = root.join("mods").join("localization").join("backups").join("lang_original");
+        if backup_dir.exists() && backup_dir.is_dir() {
+            if let Ok(entries) = std::fs::read_dir(&backup_dir) {
+                if entries.flatten().any(|e| {
+                    e.path().extension().map(|ext| ext.eq_ignore_ascii_case("csv")).unwrap_or(false)
+                }) {
+                    return Ok(true);
+                }
+            }
+        }
+    }
+    Ok(false)
 }
 
 #[tauri::command]
 pub fn get_localization_files() -> Result<Vec<String>, String> {
-    let game_dir = get_game_directory()?;
-    let lang_dir = game_dir.join("lang");
-    if !lang_dir.exists() || !lang_dir.is_dir() {
-        return Err("LANG_DIR_NOT_FOUND".to_string());
-    }
+    let mut file_set = std::collections::BTreeSet::new();
 
-    let dir_entries = std::fs::read_dir(&lang_dir)
-        .map_err(|err| err.to_string())?;
-
-    let mut files: Vec<String> = Vec::new();
-    for entry in dir_entries.flatten() {
-        let path = entry.path();
-        if path.is_file() {
-            if let Some(ext) = path.extension() {
-                if ext.eq_ignore_ascii_case("csv") {
-                    if let Some(file_name) = path.file_name().and_then(|n| n.to_str()) {
-                        files.push(file_name.to_string());
+    if let Ok(game_dir) = get_game_directory() {
+        let lang_dir = game_dir.join("lang");
+        if lang_dir.exists() && lang_dir.is_dir() {
+            if let Ok(dir_entries) = std::fs::read_dir(&lang_dir) {
+                for entry in dir_entries.flatten() {
+                    let path = entry.path();
+                    if path.is_file() {
+                        if let Some(ext) = path.extension() {
+                            if ext.eq_ignore_ascii_case("csv") {
+                                if let Some(file_name) = path.file_name().and_then(|n| n.to_str()) {
+                                    file_set.insert(file_name.to_string());
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
+    if let Ok(root) = get_app_root() {
+        let backup_dir = root.join("mods").join("localization").join("backups").join("lang_original");
+        if backup_dir.exists() && backup_dir.is_dir() {
+            if let Ok(dir_entries) = std::fs::read_dir(&backup_dir) {
+                for entry in dir_entries.flatten() {
+                    let path = entry.path();
+                    if path.is_file() {
+                        if let Some(ext) = path.extension() {
+                            if ext.eq_ignore_ascii_case("csv") {
+                                if let Some(file_name) = path.file_name().and_then(|n| n.to_str()) {
+                                    file_set.insert(file_name.to_string());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if file_set.is_empty() {
+        return Err("LANG_DIR_NOT_FOUND".to_string());
+    }
+
+    let mut files: Vec<String> = file_set.into_iter().collect();
     files.sort();
     Ok(files)
 }
@@ -177,17 +218,16 @@ pub fn get_localization_file(
     target_lang: Option<String>,
 ) -> Result<LocalizationFileData, String> {
     let sanitized_name = sanitize_csv_name(&file_name)?;
-    let game_dir = get_game_directory()?;
-
-    let lang_dir = game_dir.join("lang");
-    if !lang_dir.exists() || !lang_dir.is_dir() {
-        return Err("LANG_DIR_NOT_FOUND".to_string());
-    }
 
     let backup_path = get_backup_path(&sanitized_name)?;
     let csv_path = if backup_path.exists() {
         backup_path
     } else {
+        let game_dir = get_game_directory()?;
+        let lang_dir = game_dir.join("lang");
+        if !lang_dir.exists() || !lang_dir.is_dir() {
+            return Err("LANG_DIR_NOT_FOUND".to_string());
+        }
         lang_dir.join(&sanitized_name)
     };
 
@@ -312,7 +352,14 @@ pub fn save_localization_diff(
             .map_err(|err| format!("Failed to create diff directory: {}", err))?;
     }
 
-    let json_string = serde_json::to_string_pretty(&diffs)
+    // Empty-string values mean the user intentionally cleared the field,
+    // but patching game files with empty text is pointless – skip them.
+    let filtered: HashMap<String, String> = diffs
+        .into_iter()
+        .filter(|(_, v)| !v.is_empty())
+        .collect();
+
+    let json_string = serde_json::to_string_pretty(&filtered)
         .map_err(|err| err.to_string())?;
 
     atomic_write(&diff_path, json_string.as_bytes())
@@ -583,14 +630,19 @@ pub fn apply_diff_to_csv(file_name: String, target_lang: Option<String>) -> Resu
     }
 
     let game_dir = get_game_directory()?;
-    let target_csv_path = game_dir.join("lang").join(&sanitized_name);
-    if !target_csv_path.exists() {
-        return Err(format!("CSV file not found in game directory: {}", sanitized_name));
+    let lang_dir = game_dir.join("lang");
+    if !lang_dir.exists() {
+        let _ = std::fs::create_dir_all(&lang_dir);
+    }
+    let target_csv_path = lang_dir.join(&sanitized_name);
+    let backup_path = get_backup_path(&sanitized_name)?;
+
+    if !target_csv_path.exists() && !backup_path.exists() {
+        return Err(format!("CSV file not found in game directory or backups: {}", sanitized_name));
     }
 
-    ensure_backup_exists(&sanitized_name)?;
+    let _ = ensure_backup_exists(&sanitized_name);
 
-    let backup_path = get_backup_path(&sanitized_name)?;
     let source_path = if backup_path.exists() {
         backup_path
     } else {
@@ -709,10 +761,14 @@ pub fn restore_original_csv(file_name: String) -> Result<(), String> {
     }
 
     let game_dir = get_game_directory()?;
-    let target_csv_path = game_dir.join("lang").join(&sanitized_name);
+    let lang_dir = game_dir.join("lang");
+    let target_csv_path = lang_dir.join(&sanitized_name);
 
     let backup_path = get_backup_path(&sanitized_name)?;
     if backup_path.exists() {
+        if !lang_dir.exists() {
+            let _ = std::fs::create_dir_all(&lang_dir);
+        }
         let backup_bytes = std::fs::read(&backup_path)
             .map_err(|e| format!("Failed to read vanilla backup CSV: {}", e))?;
         atomic_write(&target_csv_path, &backup_bytes)
@@ -725,6 +781,69 @@ pub fn restore_original_csv(file_name: String) -> Result<(), String> {
     }
 
     Ok(())
+}
+
+/// Downloads clean (vanilla) CSV files from the gszabi99/War-Thunder-Datamine repository
+/// and saves them into the local backup folder (`mods/localization/backups/lang_original/`).
+/// Returns the number of successfully downloaded files.
+#[tauri::command]
+pub fn fetch_clean_lang_from_datamine(file_names: Vec<String>) -> Result<u32, String> {
+    let root = get_app_root()?;
+    let backup_dir = root
+        .join("mods")
+        .join("localization")
+        .join("backups")
+        .join("lang_original");
+
+    std::fs::create_dir_all(&backup_dir)
+        .map_err(|e| format!("Failed to create backup directory: {}", e))?;
+
+    let base_url = "https://raw.githubusercontent.com/gszabi99/War-Thunder-Datamine/master/lang.vromfs.bin_u/lang";
+
+    let client = reqwest::blocking::Client::builder()
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .map_err(|e| format!("Failed to create HTTP client: {}", e))?;
+
+    let mut count = 0u32;
+    let mut errors: Vec<String> = Vec::new();
+
+    for raw_name in &file_names {
+        let sanitized = match sanitize_csv_name(raw_name) {
+            Ok(s) => s,
+            Err(e) => {
+                errors.push(format!("{}: {}", raw_name, e));
+                continue;
+            }
+        };
+
+        let url = format!("{}/{}", base_url, sanitized);
+        match client.get(&url).send() {
+            Ok(resp) if resp.status().is_success() => {
+                match resp.bytes() {
+                    Ok(bytes) => {
+                        let out_path = backup_dir.join(&sanitized);
+                        if let Err(e) = std::fs::write(&out_path, &bytes) {
+                            errors.push(format!("{}: write failed – {}", sanitized, e));
+                        } else {
+                            count += 1;
+                        }
+                    }
+                    Err(e) => errors.push(format!("{}: read failed – {}", sanitized, e)),
+                }
+            }
+            Ok(resp) => {
+                errors.push(format!("{}: HTTP {} – file may not exist in datamine", sanitized, resp.status()));
+            }
+            Err(e) => errors.push(format!("{}: request failed – {}", sanitized, e)),
+        }
+    }
+
+    if count == 0 && !errors.is_empty() {
+        return Err(errors.join("; "));
+    }
+
+    Ok(count)
 }
 
 #[cfg(test)]

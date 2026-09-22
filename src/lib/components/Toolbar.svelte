@@ -14,7 +14,6 @@
   export let onFileChange: (file: string) => void;
   export let onGameLangChange: (lang: string) => void;
   export let onToggleStarredFilter: () => void;
-  export let onSaveDiff: () => void;
   export let onApplyToGame: () => void;
   export let onRestoreVanilla: () => void;
   export let searchInputEl: HTMLInputElement | null = null;
@@ -57,17 +56,13 @@
     </div>
 
     <div class="toolbar-group actions-group">
-      <button type="button" on:click={onSaveDiff}>
-        {$t('editor.saveDiff', { count: pendingCount })}
-      </button>
-
       <button 
         type="button" 
         class="btn-primary" 
         on:click={onApplyToGame} 
         disabled={isApplying}
       >
-        {isApplying ? $t('editor.applying') : $t('editor.applyToGame')}
+        {isApplying ? $t('editor.applying') : (pendingCount > 0 ? $t('editor.applyWithCount', { count: pendingCount }) : $t('editor.apply'))}
       </button>
 
       <button type="button" class="btn-danger" on:click={onRestoreVanilla}>

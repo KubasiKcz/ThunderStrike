@@ -201,3 +201,10 @@ pub fn save_app_config(config: &AppConfig) -> Result<(), String> {
 
     atomic_write(&config_path, json_string.as_bytes())
 }
+
+#[tauri::command]
+pub fn save_war_thunder_path(path: String) -> Result<(), String> {
+    let mut config = load_app_config()?;
+    config.war_thunder_files = path;
+    save_app_config(&config)
+}

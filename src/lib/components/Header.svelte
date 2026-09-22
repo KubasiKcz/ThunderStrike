@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { t, locale, setLocale, availableLocales } from '$lib/i18n';
+  import { t } from '$lib/i18n';
 
   export let isLocalizationEnabled = false;
   export let onToggle: () => void;
@@ -15,7 +15,7 @@
         bind:checked={isLocalizationEnabled} 
         on:change={onToggle}
       />
-      <span>{$t('header.activateTestLocalization')}</span>
+      <span>{$t('header.enableLocalization')}</span>
     </label>
 
     {#if isLocalizationEnabled}
@@ -29,18 +29,6 @@
     {#if statusMessage && isLocalizationEnabled}
       <span class="status-text">{statusMessage}</span>
     {/if}
-
-    <label class="locale-label">
-      <span>{$t('header.language')}:</span>
-      <select 
-        value={$locale} 
-        on:change={(e) => setLocale(e.currentTarget.value)}
-      >
-        {#each availableLocales as loc}
-          <option value={loc.code}>{loc.name}</option>
-        {/each}
-      </select>
-    </label>
   </div>
 </header>
 
@@ -62,7 +50,7 @@
     gap: 12px;
   }
 
-  .checkbox-label, .locale-label {
+  .checkbox-label {
     display: flex;
     align-items: center;
     gap: 6px;

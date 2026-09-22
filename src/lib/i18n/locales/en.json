@@ -2,10 +2,13 @@
   "app": {
     "title": "ThunderStrike"
   },
+  "nav": {
+    "localization": "Localization",
+    "settings": "Settings"
+  },
   "header": {
-    "activateTestLocalization": "Activate testLocalization in config.blk",
-    "checkGameFolder": "Check game folder",
-    "language": "App Language"
+    "enableLocalization": "Enable Localization",
+    "checkGameFolder": "Check game folder"
   },
   "status": {
     "checkingFolder": "Checking folder...",
@@ -30,11 +33,12 @@
     "success": "Localization successfully updated to version {version}!"
   },
   "editor": {
-    "selectFile": "File / View",
+    "selectFile": "File",
     "gameLanguage": "Game Language",
     "searchPlaceholder": "Filter by key or text...",
     "saveDiff": "Save diff ({count} changes)",
-    "applyToGame": "Apply to Game",
+    "apply": "Apply",
+    "applyWithCount": "Apply ({count})",
     "applying": "Applying...",
     "appliedSuccess": "Changes successfully applied to game files",
     "restoreOriginal": "Restore Vanilla",
@@ -66,5 +70,22 @@
   "languages": {
     "en": "English",
     "cs": "Čeština"
+  },
+  "settings": {
+    "title": "Settings",
+    "gamePath": "War Thunder path",
+    "gamePathPlaceholder": "e.g. C:\\WarThunder or ~/.local/share/Steam/...",
+    "save": "Save",
+    "saved": "Saved!",
+    "saveError": "Error saving: {error}",
+    "appLanguage": "App Language",
+    "pathHelpTitle": "How to find game path & localization",
+    "pathHelpSteamPath": "Steam path: In Steam Library, right-click War Thunder → Manage → Browse local files.",
+    "pathHelpLauncherPath": "Launcher path: Usually C:\\WarThunder (or wherever you installed the game).",
+    "fetchDatamine": "Fetch clean lang from datamine",
+    "fetchDatamineHint": "Downloads vanilla CSV files from the gszabi99/War-Thunder-Datamine repository and stores them as backups.",
+    "fetching": "Fetching...",
+    "fetchSuccess": "Downloaded {count} file(s) successfully.",
+    "fetchError": "Fetch failed: {error}"
   }
 }

@@ -20,6 +20,64 @@ ThunderStrike uses a **Delta Patcher** architecture to keep your custom texts pr
 
 ---
 
+## Installation
+
+### Windows
+
+1. Download the latest `.exe` installer from the [Releases page](https://github.com/KubasiKcz/ThenderStrike/releases).
+2. Run the installer and choose your preferred installation folder.
+3. Launch **ThunderStrike.exe** — that's it. No extra setup needed.
+
+> `config.json` and the `mods/` folder are created automatically on first launch.
+
+### Linux (AppImage)
+
+1. Download the latest `.AppImage` from the [Releases page](https://github.com/KubasiKcz/ThenderStrike/releases).
+2. Make it executable:
+   ```bash
+   chmod +x ThunderStrike_*.AppImage
+   ```
+3. Place the AppImage in any folder you like and run it. ThunderStrike stores all its data (config, mods, backups) next to the AppImage file.
+
+### Linux (Arch / Manjaro)
+
+A `PKGBUILD` is available in [`packaging/arch/`](packaging/arch/). Install with:
+
+```bash
+cd packaging/arch
+makepkg -si
+```
+
+---
+
+## Building from Source
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18+)
+- [Rust](https://rust-lang.org/) (latest stable)
+
+### Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/KubasiKcz/ThenderStrike.git
+   cd ThenderStrike
+   ```
+
+2. Install frontend dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Run the development build:
+   ```bash
+   npm run tauri dev
+   ```
+
+> No manual `config.json` setup is required — the app creates and auto-populates it on first launch, including an automatic scan for your War Thunder installation.
+
+---
+
 ## Directory Layout
 
 ```
@@ -36,37 +94,6 @@ ThunderStrike/
 
 ---
 
-## Getting Started
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v18+)
-- [Rust](https://rust-lang.org/) (latest stable)
-
-### Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/KubasiKcz/ThenderStrike.git
-   cd ThenderStrike
-   ```
-
-2. Copy the example configuration:
-   ```bash
-   cp config.example.json config.json
-   ```
-   Set `"war_thunder_files"` in `config.json` to your War Thunder directory (e.g. `C:\WarThunder` or `~/.steam/steam/steamapps/common/War Thunder`).
-
-3. Install frontend dependencies:
-   ```bash
-   npm install
-   ```
-
-4. Run the development build:
-   ```bash
-   npm run tauri dev
-   ```
-
----
-
 ## Shortcuts
 
 - `Ctrl + S`: Save pending modifications and apply them directly to game files.
@@ -76,4 +103,11 @@ ThunderStrike/
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
+
+---
+
+## Disclaimer
+
+THIS IS NOT AN OFFICIAL ITEM OR PRODUCT BY WAR THUNDER OR GAIJIN ENTERTAINMENT.
+This project is an independent community tool and is not affiliated with, endorsed by, or sponsored by Gaijin Entertainment or War Thunder in any way.

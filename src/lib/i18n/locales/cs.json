@@ -2,10 +2,13 @@
   "app": {
     "title": "ThunderStrike"
   },
+  "nav": {
+    "localization": "Lokalizace",
+    "settings": "Nastavení"
+  },
   "header": {
-    "activateTestLocalization": "Aktivovat testLocalization v config.blk",
-    "checkGameFolder": "Zkontrolovat složku hry",
-    "language": "Jazyk aplikace"
+    "enableLocalization": "Povolit lokalizační mod",
+    "checkGameFolder": "Zkontrolovat složku hry"
   },
   "status": {
     "checkingFolder": "Kontroluji složku...",
@@ -30,11 +33,12 @@
     "success": "Lokalizace byla úspěšně aktualizována na verzi {version}!"
   },
   "editor": {
-    "selectFile": "Soubor / Výběr",
+    "selectFile": "Soubor",
     "gameLanguage": "Jazyk hry",
     "searchPlaceholder": "Filtrovat podle klíče nebo textu...",
     "saveDiff": "Uložit diff ({count} úprav)",
-    "applyToGame": "Aplikovat do hry",
+    "apply": "Aplikovat",
+    "applyWithCount": "Aplikovat ({count})",
     "applying": "Aplikuji...",
     "appliedSuccess": "Změny byly úspěšně aplikovány do herních souborů",
     "restoreOriginal": "Obnovit originál",
@@ -66,5 +70,22 @@
   "languages": {
     "en": "English",
     "cs": "Čeština"
+  },
+  "settings": {
+    "title": "Nastavení",
+    "gamePath": "Cesta k War Thunderu",
+    "gamePathPlaceholder": "např. C:\\WarThunder nebo ~/.local/share/Steam/...",
+    "save": "Uložit",
+    "saved": "Uloženo!",
+    "saveError": "Chyba při ukládání: {error}",
+    "appLanguage": "Jazyk aplikace",
+    "pathHelpTitle": "Jak najít složku hry a lokalizaci",
+    "pathHelpSteamPath": "Steam cesta: V knihovně Steamu klikněte pravým na War Thunder → Spravovat → Procházet místní soubory.",
+    "pathHelpLauncherPath": "Launcher cesta: Obvykle C:\\WarThunder (nebo vaše zvolená instalační složka).",
+    "fetchDatamine": "Stáhnout čisté soubory z dataminu",
+    "fetchDatamineHint": "Stáhne originální CSV soubory z repozitáře gszabi99/War-Thunder-Datamine a uloží je jako zálohy.",
+    "fetching": "Stahování...",
+    "fetchSuccess": "Staženo {count} souborů úspěšně.",
+    "fetchError": "Stahování selhalo: {error}"
   }
 }

@@ -1,8 +1,8 @@
-# Maintainer: KubasiKcz
+# Maintainer: KubasiK_cz
 pkgname=thunderstrike-bin
-pkgver=0.1.1
+pkgver=0.1.2
 pkgrel=1
-pkgdesc="War Thunder CSV Localization & Delta Patcher Utility"
+pkgdesc="War Thunder mod manager"
 arch=('x86_64')
 url="https://github.com/KubasiKcz/ThenderStrike"
 license=('MIT')

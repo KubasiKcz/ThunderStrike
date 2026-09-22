@@ -28,3 +28,6 @@ mods/localization/backups/
 packaging/arch/pkg/
 packaging/arch/src/
 *.pkg.tar.*
+
+# Development icons and assets
+*dev__*

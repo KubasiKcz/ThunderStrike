@@ -110,6 +110,7 @@
 <style>
   .table-wrap {
     flex: 1;
+    min-height: 0;
     overflow: auto;
     border: 1px solid #3f3f46;
     border-radius: 4px;
