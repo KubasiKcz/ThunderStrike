@@ -1,113 +1,167 @@
-# ThunderStrike ⚡
-
-A modern, reliable localization mod manager for **War Thunder**, built with **Tauri v2**, **Rust**, and **SvelteKit**.
-
-ThunderStrike solves the classic problem War Thunder modders face: whenever Gaijin updates the game, modified localization CSV files cause missing text (`#hud_target_destroyed`, missing vehicle names, broken menus).
-
-ThunderStrike uses a **Delta Patcher** architecture to keep your custom texts preserved across game updates without breaking new in-game vehicles or features.
+![GitHub Repo Banner](https://ghrb.waren.build/banner?header=%21%5Bthunderstrike%5D+ThunderStrike&subheader=A+portable%2C+open-source+mod+manager+for+War+Thunder.&bg=00000000&color=FFFFFF&headerfont=JetBrains+Mono&subheaderfont=JetBrains+Mono&support=false)
 
 ---
 
-## Key Features
+## ✨ Current Features
 
-- 🎯 **Delta Patcher Engine**: Saves changes as clean JSON diffs rather than modifying vanilla CSVs directly. Original game files are backed up automatically.
-- 🔄 **Game Version Tracking**: Automatically reads the game's `version` file. When an update is detected, it guides you through safely regenerating fresh game files and re-applying your customizations with one click.
-- ⭐ **Curated Starred View**: Instant access to the most frequently modified combat text (kill messages, HUD warnings, artillery prompts, crew knockouts) without digging through 30,000+ CSV entries.
-- ↺ **Per-Row Revert**: Easily restore any customized string back to its vanilla text with a single click.
-- 🔒 **Safe & Atomic Operations**: All writes are performed atomically with strict path sanitization to guarantee game files and configs are never corrupted.
-- 🌐 **Multilingual Support**: Fully bilingual application interface (English & Čeština) with support for all War Thunder languages.
-- ⚡ **Lightweight & Fast**: Built on Tauri v2 and optimized for smooth performance even with large localization files.
+### System
+| Feature | Description |
+|---|---|
+| 🔍 **Auto Game Detection** | On first launch, automatically scans common Steam library locations on Windows and Linux |
+| 🔒 **Safe & Atomic Writes** | Strict path sanitization and atomic writes — game files and configs are never corrupted |
+| ⚡ **Lightweight** | Native Tauri binary with minimal resource usage — no heavy Electron runtime |
+| 🌐 **Multilingual UI** | App interface in **English** & **Czech** |
+
+### Localization Editor
+| Feature | Description |
+|---|---|
+| 🎯 **Delta Patcher** | Saves your edits as clean JSON diffs — original vanilla CSVs are never modified directly |
+| 🔄 **Auto-Update Detection** | Reads the game's `version` file; one-click re-apply of all your changes after a WT patch |
+| ⭐ **Starred Keys** | Curated quick-access list of common strings (kill messages, HUD alerts, crew calls, artillery prompts…) |
+| ↺ **Per-Row Revert** | Restore any single string back to vanilla with one click — no need to redo the whole file |
+| 📥 **Datamine Fetch** | Download pristine vanilla CSVs from [gszabi99/War-Thunder-Datamine](https://github.com/gszabi99/War-Thunder-Datamine) — no game launch needed |
 
 ---
 
-## Installation
+## 🗺️ Planned Features
 
-### Windows
+*(Not in strict order)*
 
-1. Download the latest `.exe` installer from the [Releases page](https://github.com/KubasiKcz/ThenderStrike/releases).
-2. Run the installer and choose your preferred installation folder.
-3. Launch **ThunderStrike.exe** — that's it. No extra setup needed.
+- [ ] **Fast game launch** — launch War Thunder directly from ThunderStrike
+- [ ] **Skin manager** — browse, install and toggle custom vehicle skins & decals
+- [ ] **Sight manager** — manage custom gunsight packs
+- [ ] **Custom sounds manager** — install and switch sound mods
+- [ ] **Hangar manager** — custom hangar environments
+- [ ] **User missions manager** — organize and run custom missions (which can also contain custom vehicles)
+- [ ] **Discord Rich Presence** — show current activity in Discord
+- [ ] **Replay archiver** — auto-save and tag game replays before they expire
+- [ ] **macOS support**
+- [ ] **More in-app language support**
 
-> `config.json` and the `mods/` folder are created automatically on first launch.
+---
 
-### Linux (AppImage)
+## ⌨️ Shortcuts
 
-1. Download the latest `.AppImage` from the [Releases page](https://github.com/KubasiKcz/ThenderStrike/releases).
-2. Make it executable:
+| Context | Shortcut | Action |
+|---|---|---|
+| **Localization editor** | `Ctrl + S` | Save pending edits and apply them to game files immediately |
+| **Localization editor** | `Ctrl + F` | Jump to the search / filter bar |
+
+---
+
+## 📦 Installation
+
+> [!NOTE]
+> **ThunderStrike is fully portable.** There is no installer and nothing is written to the registry — just drop it in a folder and run.  
+> All data (`config.json`, diffs, backups) is stored locally next to the executable.
+
+> **System Compatibility & Testing:**  
+> - Developed on **Arch Linux** with [CachyOS](https://cachyos.org/)  
+> - Tested on **Windows 11**
+
+### 🪟 Windows
+
+1. Download **`ThunderStrike_x64.exe`** from the [Releases page](https://github.com/KubasiKcz/ThenderStrike/releases/latest).
+2. Place it in any folder you prefer (e.g. `C:\Users\You\Apps\ThunderStrike\`).
+3. Double-click to run — that's it, it setups itself automatically.
+
+### 🐧 Linux (AppImage) — recommended
+
+1. Download **`ThunderStrike_x86_64.AppImage`** from the [Releases page](https://github.com/KubasiKcz/ThenderStrike/releases/latest).
+2. Place it in a dedicated folder, for example:
+   ```bash
+   ~/Apps/ThunderStrike/
+   ```
+3. Make it executable and run:
    ```bash
    chmod +x ThunderStrike_*.AppImage
+   ./ThunderStrike_*.AppImage
    ```
-3. Place the AppImage in any folder you like and run it. ThunderStrike stores all its data (config, mods, backups) next to the AppImage file.
 
-### Linux (Arch / Manjaro)
+<details>
+<summary><b>🐧 Linux (Arch / Manjaro PKGBUILD)</b></summary>
 
-A `PKGBUILD` is available in [`packaging/arch/`](packaging/arch/). Install with:
+A `PKGBUILD` is included in [`packaging/arch/`](packaging/arch/):
 
 ```bash
 cd packaging/arch
 makepkg -si
 ```
 
----
+</details>
 
-## Building from Source
+<details>
+<summary><b>❌️🍎 macOS (not yet supported)</b></summary>
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v18+)
-- [Rust](https://rust-lang.org/) (latest stable)
+macOS builds are not available **yet** — planned for a **future release**.
 
-### Setup
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/KubasiKcz/ThenderStrike.git
-   cd ThenderStrike
-   ```
-
-2. Install frontend dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Run the development build:
-   ```bash
-   npm run tauri dev
-   ```
-
-> No manual `config.json` setup is required — the app creates and auto-populates it on first launch, including an automatic scan for your War Thunder installation.
+</details>
 
 ---
 
-## Directory Layout
+## 📂 Portable Directory Layout
+
+When running ThunderStrike as an end-user, this is the clean folder structure created next to your executable:
 
 ```
 ThunderStrike/
-├── config.json              # Local configuration (game directory path, toggle)
-├── mods/
-│   └── localization/
-│       ├── starred.txt      # Curated list of starred keys
-│       ├── diffs/           # User JSON diffs (<file>.json)
-│       └── backups/         # Pristine vanilla CSV backups (<file>.csv)
-├── src/                     # SvelteKit frontend & design system
-└── src-tauri/               # Rust backend (Tauri commands, CSV patcher, BLK parser)
+├── ThunderStrike.exe (or .AppImage)
+├── config.json              # Local config & detected WT path (auto-generated)
+└── mods/                    # Mod storage
+    └── localization/         # Localization mods storage
+        ├── starred.txt          # Starred keys list
+        ├── diffs/               # Your JSON diffs (<file>.json)
+        └── backups/             # Pristine vanilla CSV backups (<file>.csv)
 ```
 
 ---
 
-## Shortcuts
+## 🔧 Building from Source
 
-- `Ctrl + S`: Save pending modifications and apply them directly to game files.
-- `Ctrl + F`: Focus the key/text search filter.
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) v18+
+- [Rust](https://rust-lang.org/) (latest stable via [rustup](https://rustup.rs/))
+- On Linux: `gtk3`, `webkit2gtk-4.1`, `libsoup3`, `pkg-config`
+
+### Steps
+
+```bash
+# 1. Clone
+git clone https://github.com/KubasiKcz/ThunderStrike.git
+cd ThunderStrike
+
+# 2. Install frontend deps
+npm install
+
+# 3. Dev build (hot-reload)
+npm run tauri dev
+
+# 4. Production build
+npm run bundle
+```
 
 ---
 
-## License
+## 🎁 Special Thanks
 
-This project is licensed under the [GNU General Public License v3.0](LICENSE).
+- [gszabi99](https://github.com/gszabi99) for [War-Thunder-Datamine](https://github.com/gszabi99/War-Thunder-Datamine)
+- [Lucide](https://lucide.dev/) for the open-source icon library
+- [Waren Gonzaga](https://github.com/warengonzaga) for [GitHub Repo Banner Creator](https://ghrb.waren.build)
 
 ---
 
-## Disclaimer
+## ⚖️ Legal
 
-THIS IS NOT AN OFFICIAL ITEM OR PRODUCT BY WAR THUNDER OR GAIJIN ENTERTAINMENT.
-This project is an independent community tool and is not affiliated with, endorsed by, or sponsored by Gaijin Entertainment or War Thunder in any way.
+### Disclaimer
+
+**THIS IS NOT AN OFFICIAL GAIJIN ENTERTAINMENT OR WAR THUNDER PRODUCT.**  
+ThunderStrike is an independent community tool with no affiliation with, endorsement by, or sponsorship from Gaijin Entertainment or the War Thunder franchise. Use at your own risk.
+
+### License
+
+This project is licensed under the **[GNU General Public License v3.0](LICENSE)** — free to use, modify, and distribute under the same terms.
+
+### AI Assistance
+
+Parts of this project were developed with the assistance of AI coding tools (Google Antigravity IDE / Gemini & Claude). All generated code was reviewed, tested, and modified by the project maintainer. Im still learning so please be nice :(
